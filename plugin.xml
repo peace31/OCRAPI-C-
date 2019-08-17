@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+-->
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:rim="http://www.blackberry.com/ns/widgets"
+           id="cordova-plugin-doc-detect"
+      version="1.5.30">
+    <name>DocDetect</name>
+
+    <description>Doc Crop using Perspective Transform</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,media,capture</keywords>
+    <repo>https://github.com/yyc93/OCR_cordova_plugin.git</repo>
+    <issue>https://issues.apache.org/jira/browse/CB/component/12320646</issue>
+
+    <!-- <dependency id="cordova-plugin-file" version="^4.0.0" /> --> 
+    <!-- <dependency id="cordova-plugin-compat" version="^1.0.0" /> -->
+    <!-- <dependency id="cordova-custom-config" version="^5.0.2" /> -->
+    <dependency id="cordova-plugin-cocoapod-support"/>
+
+    <js-module src="www/CaptureError.js" name="CaptureError">
+        <clobbers target="CaptureError" />
+    </js-module>
+
+    <js-module src="www/OcrOptions.js" name="OcrOptions">
+        <clobbers target="OcrOptions" />
+    </js-module>
+
+    <js-module src="www/capture.js" name="capture">
+        <clobbers target="capture" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="Capture1" >
+                <param name="android-package" value="com.creative.informatics.camera.Capture1"/>
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.RECORD_VIDEO"/>
+            <uses-permission android:name="android.permission.CAMERA" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            
+            <uses-feature android:name="android.hardware.camera" />
+            <uses-feature android:name="android.hardware.camera.autofocus" />
+        </config-file>
+
+        <framework src="com.google.android.gms:play-services-vision:11.+" />
+        
+        <source-file src="src/android/camera/Capture1.java" target-dir="src/com/creative/informatics/camera" />
+        <source-file src="src/android/camera/PendingRequests.java" target-dir="src/com/creative/informatics/camera" />
+        <source-file src="src/android/camera/OcrCaptureFragment.java" target-dir="src/com/creative/informatics/camera/" />
+        <source-file src="src/android/camera/OcrDetectorProcessor.java" target-dir="src/com/creative/informatics/camera/" />
+        <source-file src="src/android/camera/MetaEngineController.java" target-dir="src/com/creative/informatics/camera/" />
+        <source-file src="src/android/camera/OcrGraphic.java" target-dir="src/com/creative/informatics/camera/" />
+        <source-file src="src/android/camera/BroadCastService.java" target-dir="src/com/creative/informatics/camera/" />
+		
+        <source-file src="src/android/ui/CameraSource.java" target-dir="src/com/creative/informatics/ui/" />
+        <source-file src="src/android/ui/CameraSourcePreview.java" target-dir="src/com/creative/informatics/ui/" />
+        <source-file src="src/android/ui/GraphicOverlay.java" target-dir="src/com/creative/informatics/ui/" />
+		
+        <source-file src="src/android/phonet4java/Coder.java" target-dir="src/de/zedlitz/phonet4java/" />
+        <source-file src="src/android/phonet4java/DaitchMokotoff.java" target-dir="src/de/zedlitz/phonet4java/" />
+        <source-file src="src/android/phonet4java/KoelnerPhonetik.java" target-dir="src/de/zedlitz/phonet4java/" />
+        <source-file src="src/android/phonet4java/Phonet.java" target-dir="src/de/zedlitz/phonet4java/" />
+        <source-file src="src/android/phonet4java/Phonet1.java" target-dir="src/de/zedlitz/phonet4java/" />
+        <source-file src="src/android/phonet4java/Phonet2.java" target-dir="src/de/zedlitz/phonet4java/" />
+        <source-file src="src/android/phonet4java/PhoneticRules.java" target-dir="src/de/zedlitz/phonet4java/" />
+        <source-file src="src/android/phonet4java/Soundex.java" target-dir="src/de/zedlitz/phonet4java/" />
+        <source-file src="src/android/phonet4java/SoundexRefined.java" target-dir="src/de/zedlitz/phonet4java/" />
+		
+        <resource-file src="src/android/res/layout/ocr_capture.xml" target="res/layout/ocr_capture.xml" />
+        <resource-file src="src/android/res/values/strings.xml" target="res/values/ocr_strings.xml" />
+
+        <js-module src="www/android/init.js" name="init">
+            <runs />
+        </js-module>
+    </platform>
+    
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+
+            <feature name="Capture1"><!-- AbbyyRtrSdk -->
+                <param name="ios-package" value="RTRPlugin"/>
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/RTRPlugin.h" />
+        <source-file src="src/ios/RTRPlugin.m" />
+
+        <header-file src="src/ios/RTRManager.h" />
+        <source-file src="src/ios/RTRManager.m" />
+
+        <header-file src="src/ios/double_metaphone.h" />
+        <header-file src="src/ios/DoubleMetaphone.h" />
+        <source-file src="src/ios/DoubleMetaphone.m" />
+        <header-file src="src/ios/MetaEngineController.h" />
+        <source-file src="src/ios/MetaEngineController.m" />
+
+        <header-file src="src/ios/RTRDataCaptureScenario.h" />
+        <source-file src="src/ios/RTRDataCaptureScenario.m" />
+
+        <header-file src="src/ios/CDVPluginResult+RTRPluginResult.h" />
+        <source-file src="src/ios/CDVPluginResult+RTRPluginResult.m" />
+
+        <header-file src="src/ios/RTRSelectedAreaView.h" />
+        <source-file src="src/ios/RTRSelectedAreaView.m" />
+
+        <header-file src="src/ios/RTRProgressView.h" />
+        <source-file src="src/ios/RTRProgressView.m" />
+        <resource-file src="src/ios/RTRProgressView.xib" />
+
+        <header-file src="src/ios/RTRTextCaptureViewController.h" />
+        <source-file src="src/ios/RTRTextCaptureViewController.m" />
+        <header-file src="src/ios/RTRDataCaptureViewController.h" />
+        <source-file src="src/ios/RTRDataCaptureViewController.m" />
+        <header-file src="src/ios/RTRViewController.h" />
+        <source-file src="src/ios/RTRViewController.m" />
+        <resource-file src="src/ios/RTRViewController.xib" />
+
+        <!-- Icons -->
+        <resource-file src="src/ios/Icons/ui_close_button/ui_close_button.png" target="Icons/ui_close_button.png" />
+        <resource-file src="src/ios/Icons/ui_close_button/ui_close_button@2x.png" target="Icons/ui_close_button@2x.png" />
+        <resource-file src="src/ios/Icons/ui_close_button/ui_close_button@3x.png" target="Icons/ui_close_button@3x.png" />
+
+        <resource-file src="src/ios/Icons/ui_flash_off_button/ui_flash_off_button.png" target="Icons/ui_flash_off_button.png" />
+        <resource-file src="src/ios/Icons/ui_flash_off_button/ui_flash_off_button@2x.png" target="Icons/ui_flash_off_button@2x.png" />
+        <resource-file src="src/ios/Icons/ui_flash_off_button/ui_flash_off_button@3x.png" target="Icons/ui_flash_off_button@3x.png" />
+
+        <resource-file src="src/ios/Icons/ui_flash_on_button/ui_flash_on_button.png" target="Icons/ui_flash_on_button.png" />
+        <resource-file src="src/ios/Icons/ui_flash_on_button/ui_flash_on_button@2x.png" target="Icons/ui_flash_on_button@2x.png" />
+        <resource-file src="src/ios/Icons/ui_flash_on_button/ui_flash_on_button@3x.png" target="Icons/ui_flash_on_button@3x.png" />
+
+        <asset src="src/ios/rtr_assets" target="rtr_assets" />
+
+        <framework src="CoreGraphics.framework" />
+        <framework src="CoreMedia.framework" />
+        <framework src="CoreVideo.framework" />
+        <framework src="UIKit.framework" />
+        <framework src="QuartzCore.framework" />
+        <framework src="Security.framework" />
+        <framework src="AVFoundation.framework" />
+        <framework src="libc++.tbd" />
+        <framework src="libs/ios/AbbyyRtrSDK.framework" custom="true"/>
+
+        <preference name="CAMERA_USAGE_DESCRIPTION" default="NSCameraUsageDescription" />
+        <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
+            <string>$CAMERA_USAGE_DESCRIPTION</string>
+        </config-file>
+    </platform>
+     
+
+</plugin>

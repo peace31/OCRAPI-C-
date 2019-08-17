@@ -1,0 +1,31 @@
+{
+  "name": "cordova-plugin-doc-detect",
+  "version": "1.5.30",
+  "description": "Cordova OCR Document Plugin",
+  "cordova": {
+    "id": "cordova-plugin-doc-detect",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "engines": {
+    "cordovaDependencies": {
+      "2.0.0": {
+        "cordova": ">100"
+      }
+    }
+  },
+  "keywords": [
+    "cordova",
+    "ocr",
+    "detect",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yyc93/OCR_cordova_plugin.git"
+  }
+}
